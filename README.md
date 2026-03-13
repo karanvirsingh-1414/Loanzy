@@ -1,6 +1,6 @@
 # 🚀 LOANZY
 
-> **Empowering Financial Freedom Through Seamless Lending**
+> **Empowering Financial Freedom Through Seamless, AI-Powered Lending**
 
 ![Last Commit](https://img.shields.io/github/last-commit/karanvirsingh-1414/Loanzy)
 ![Repo Top Language](https://img.shields.io/github/languages/top/karanvirsingh-1414/Loanzy)
@@ -10,99 +10,105 @@
 
 ## 🛠 Built With
 
-- Java  
-- Spring Boot  
-- Spring Security  
-- OAuth2  
-- React  
-- TailwindCSS  
-- Vite  
-- MySQL  
-- Maven  
-- npm  
-- JSON  
-- XML  
-- ESLint  
+- Java 23
+- Spring Boot 4
+- Spring Security
+- JWT Authentication
+- Google Gemini AI API
+- React 18
+- TailwindCSS
+- Vite
+- MySQL
+- Maven
+- npm
 
 ---
 
 ## 📚 Table of Contents
 
 - [Overview](#overview)
-- [Why Loanzy?](#why-loanzy)
+- [Features](#features)
+- [AI Capabilities](#ai-capabilities)
+- [Architecture](#architecture)
 - [Getting Started](#getting-started)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
+- [Environment Variables](#environment-variables)
 - [Usage](#usage)
-- [Testing](#testing)
 
 ---
 
 ## 📖 Overview
 
-Loanzy is an all-in-one **Loan Management Platform** built using a microservices architecture.  
-It combines secure authentication, scalable backend services, and a modern React-based frontend.
+Loanzy is an enterprise-grade **AI-Powered Loan Management Platform** built on a microservices architecture.
 
-The platform streamlines:
-
-- Loan processing  
-- User onboarding  
-- Admin monitoring  
-- Payment management  
-
-All within a cohesive and scalable system.
+It combines secure JWT-based authentication, an intelligent AI credit risk analyzer, a generative AI chatbot assistant, and a modern React frontend — all wired through a Spring Cloud API Gateway.
 
 ---
 
-## 💡 Why Loanzy?
-
-Loanzy empowers developers to build, extend, and deploy a secure and scalable financial platform with ease.
+## ✨ Features
 
 ### 🛡️ Security & Authentication
-- Secure login and registration
-- Role-based authorization
-- Spring Security + OAuth2 integration
+- JWT-based stateless authentication
+- Role-based authorization (USER / ADMIN)
+- Protected frontend routes via `ProtectedRoute` and `AdminRoute` guards
+- Passwords encrypted with BCrypt
+
+### 🤖 AI Capabilities
+- **AI Credit Risk Analyzer** — Powered by Google Gemini API (backend Java service). Automatically analyzes loan requests on submission and sets status to `Rejected by AI` if the risk exceeds defined thresholds (e.g., Personal Loan > ₹50L)
+- **AI Chatbot Assistant** — A floating chat widget on the frontend using the Gemini Generative AI SDK. Acts as "Loanzy AI Assistant" to answer loan-related queries in real time
 
 ### ⚙️ Microservices Architecture
-- Separate services for:
-  - Users
-  - Loans
-  - Payments
-  - API Gateway
-- Scalable and modular deployment
+| Service | Port | Responsibility |
+|---|---|---|
+| API Gateway | 8080 | Single entry point for all requests |
+| Auth Service | 8081 | JWT generation, login, registration |
+| User Service | 8082 | User profile management |
+| Loan Service | 8083 | Loan lifecycle + AI Risk Analysis |
+| Payment Service | 8084 | EMI payment recording |
 
-### 🎨 Modern UI
-- React + TailwindCSS
-- Fast development with Vite
-- Responsive and clean design
+### 🎨 Modern Frontend
+- Cyberpunk-inspired dark UI with glassmorphism effects
+- Dynamic Navbar based on auth state
+- Toast notifications (react-hot-toast) replacing browser alerts
+- Responsive design with smooth micro-animations
+- Admin Dashboard with real-time loan approval/rejection controls
 
 ### 📊 RESTful APIs
-- Loan application endpoints
+- Loan application, approval & rejection endpoints
 - Admin dashboard APIs
 - User management services
+- AI-integrated loan submission pipeline
 
-### 🚀 Developer-Friendly
-- Clean project structure
-- Easy integration
-- Highly extensible architecture
+---
+
+## 🏗️ Architecture
+
+```
+Browser (React + Vite)
+        │
+        ▼
+API Gateway (Port 8080)
+        │
+  ┌─────┼──────────┬──────────┐
+  ▼     ▼          ▼          ▼
+Auth  User      Loan      Payment
+8081  8082      8083       8084
+                 │
+                 ▼
+          Google Gemini AI
+          (Risk Analysis)
+```
 
 ---
 
 ## 🏁 Getting Started
 
-Follow the instructions below to set up Loanzy locally.
+### 📌 Prerequisites
 
----
-
-## 📌 Prerequisites
-
-Make sure you have installed:
-
-- Java (17+ recommended)
-- Node.js
-- npm
+- Java 17+
+- Node.js & npm
 - Maven
-- MySQL
+- MySQL Server
+- Google Gemini API Key (free at [aistudio.google.com](https://aistudio.google.com/app/apikey))
 
 ---
 
@@ -115,55 +121,66 @@ git clone https://github.com/karanvirsingh-1414/Loanzy.git
 cd Loanzy
 ```
 
----
+### 2️⃣ MySQL Setup
 
-### 2️⃣ Install Frontend Dependencies
+Create the database and user:
 
-```bash
-cd frontend
-npm install
+```sql
+CREATE DATABASE loanzy;
+CREATE USER 'loanuser'@'localhost' IDENTIFIED BY 'password123';
+GRANT ALL PRIVILEGES ON loanzy.* TO 'loanuser'@'localhost';
 ```
 
----
+### 3️⃣ Configure Environment Variables
 
-### 3️⃣ Install Backend Dependencies
+**Frontend** — create `frontend/loanzy/.env`:
+```env
+VITE_GEMINI_API_KEY=your_google_gemini_api_key
+```
+
+**Backend** — update `backend/loan-service/src/main/resources/application.properties`:
+```properties
+gemini.api.key=your_google_gemini_api_key
+```
+
+### 4️⃣ Install Frontend Dependencies
 
 ```bash
-cd backend
-mvn clean install
+cd frontend/loanzy
+npm install
 ```
 
 ---
 
 ## ▶️ Usage
 
+### Run All Backend Services (in separate terminals)
+
+```bash
+cd backend/api-gateway && mvn spring-boot:run
+cd backend/auth-service && mvn spring-boot:run
+cd backend/user-service && mvn spring-boot:run
+cd backend/loan-service && mvn spring-boot:run
+cd backend/payment-service && mvn spring-boot:run
+```
+
 ### Run Frontend
 
 ```bash
-npm start
+cd frontend/loanzy
+npx vite --host
 ```
 
-### Run Backend
-
-```bash
-mvn spring-boot:run
-```
+App runs at: **http://localhost:5173**
 
 ---
 
-## 🧪 Testing
+## 👤 Default Roles
 
-### Frontend Tests
-
-```bash
-npm test
-```
-
-### Backend Tests
-
-```bash
-mvn test
-```
+| Role | How to Get |
+|---|---|
+| USER | Register with any email/username |
+| ADMIN | Register with "admin" in username or email (e.g., `admin@loanzy.com`) |
 
 ---
 
@@ -172,27 +189,28 @@ mvn test
 ```
 Loanzy/
 │
-├── frontend/      # React + Vite Application
-├── backend/       # Spring Boot Microservices
-├── database/      # SQL Scripts
-└── README.md
+├── frontend/loanzy/          # React + Vite Application
+│   ├── src/
+│   │   ├── components/       # Navbar, Chatbot, ProtectedRoutes, LoanTable
+│   │   ├── pages/            # Landing, Login, Register, Dashboard, AdminDashboard, ApplyLoan, About
+│   │   └── utils/            # auth.js (JWT utilities)
+│   └── .env                  # Gemini API Key (not committed in production)
+│
+└── backend/
+    ├── api-gateway/          # Spring Cloud Gateway (Port 8080)
+    ├── auth-service/         # JWT Auth (Port 8081)
+    ├── user-service/         # User Management (Port 8082)
+    ├── loan-service/         # Loans + AI Risk Engine (Port 8083)
+    └── payment-service/      # EMI Payments (Port 8084)
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome!  
+Contributions are welcome!
 Feel free to fork the repo and submit a pull request.
 
 ---
 
-## 📜 License
-
-This project is licensed under the MIT License.
-
----
-
-<p align="center">
-  Made with ❤️ by Karanvir Singh
-</p>
+> Built with ❤️ using Spring Boot, React, and Google Gemini AI
