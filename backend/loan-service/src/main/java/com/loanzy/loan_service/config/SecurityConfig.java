@@ -15,9 +15,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable) // Let Gateway handle CORS
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()); // Trust Gateway for now
+                        .anyRequest().permitAll());
 
         return http.build();
     }

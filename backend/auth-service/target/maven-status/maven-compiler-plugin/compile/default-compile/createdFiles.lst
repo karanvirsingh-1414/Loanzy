@@ -4,5 +4,6 @@ com/loanzy/auth_service/AuthServiceApplication.class
 com/loanzy/auth_service/dto/AuthResponse.class
 com/loanzy/auth_service/dto/LoginRequest.class
 com/loanzy/auth_service/repository/UserRepository.class
+com/loanzy/auth_service/util/JwtUtil.class
 com/loanzy/auth_service/config/SecurityConfig.class
 com/loanzy/auth_service/entity/User.class

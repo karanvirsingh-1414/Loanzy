@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import LoanCard from "../components/Loancard";
 import LoanTable from "../components/Loantable";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const [activeLoansData, setActiveLoansData] = React.useState([]);
@@ -22,7 +23,7 @@ const Dashboard = () => {
         const response = await fetch(`http://localhost:8080/loans/user/${userId}`);
         if (response.ok) {
           const data = await response.json();
-          // Map backend data to frontend table format
+
           const formattedData = data.map(loan => ({
             id: `#LN-${loan.id}`,
             type: loan.type,
@@ -34,6 +35,7 @@ const Dashboard = () => {
         }
       } catch (err) {
         console.error("Failed to fetch loans", err);
+        toast.error("Failed to load your dashboard data");
       }
     };
 
@@ -43,7 +45,7 @@ const Dashboard = () => {
   return (
     <div className="bg-black min-h-screen pt-20 pb-10 px-4 md:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Sidebar Navigation */}
+        {}
         <div className="lg:col-span-1 space-y-2">
           <div className="glass-panel p-4 rounded-xl sticky top-24">
             <h3 className="text-neutral-500 text-xs font-semibold uppercase tracking-wider mb-4 px-3">
@@ -66,15 +68,15 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Main Content */}
+        {}
         <div className="lg:col-span-3 space-y-8">
-          {/* Welcome Header */}
+          {}
           <div>
             <h2 className="text-2xl font-bold">Good Evening, Alex</h2>
             <p className="text-neutral-400">Here is your financial overview.</p>
           </div>
 
-          {/* Stats Cards */}
+          {}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <LoanCard
               label="Total Loans"
@@ -114,7 +116,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Active Loans Table */}
+          {}
           <LoanTable loans={activeLoansData} />
         </div>
       </div>
