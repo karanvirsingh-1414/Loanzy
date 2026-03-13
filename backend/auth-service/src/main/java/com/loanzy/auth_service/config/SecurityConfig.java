@@ -33,9 +33,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable) // Disable CORS functionality to let Gateway handle it
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll() // Allow generic auth
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated());
 
@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .map(user -> new org.springframework.security.core.userdetails.User(
                         user.getUsername(),
                         user.getPassword(),
-                        List.of() // No authorities for now
+                        List.of()
                 ))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
@@ -74,15 +74,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Allow ONLY the API Gateway to access this service directly (or allow all if
-        // behind firewall)
-        // Since we are running locally, we can allow the Gateway's origin if it sends
-        // one, or just allow everything for dev.
-        // However, a common pattern is to disable CORS in the service and let Gateway
-        // handle it.
-        // But if we disable it, Spring Security might block OPTIONS requests.
-        // So we allow ALL for now, but the Gateway will overwrite headers.
-        // Actually, preventing double headers is key.
+
         configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));

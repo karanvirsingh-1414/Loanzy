@@ -6,3 +6,4 @@
 /Users/karanvirsingh/Desktop/Loanzy/backend/auth-service/src/main/java/com/loanzy/auth_service/dto/RegisterRequest.java
 /Users/karanvirsingh/Desktop/Loanzy/backend/auth-service/src/main/java/com/loanzy/auth_service/entity/User.java
 /Users/karanvirsingh/Desktop/Loanzy/backend/auth-service/src/main/java/com/loanzy/auth_service/repository/UserRepository.java
+/Users/karanvirsingh/Desktop/Loanzy/backend/auth-service/src/main/java/com/loanzy/auth_service/util/JwtUtil.java

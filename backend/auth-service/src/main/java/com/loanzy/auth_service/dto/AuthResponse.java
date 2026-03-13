@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthResponse {
     private String message;
-    private String token; // For now returning dummy token or username
+    private String token;
     private Long userId;
 }

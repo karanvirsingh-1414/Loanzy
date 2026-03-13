@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Lock, User, Mail } from "lucide-react";
-
+import toast from "react-hot-toast";
 const Register = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -25,14 +25,16 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Registration Successful:", data);
+        toast.success("Registration Successful! Please login.");
         navigate("/login");
       } else {
         setError(data.message || "Registration failed");
+        toast.error(data.message || "Registration failed");
       }
     } catch (err) {
       console.error("Registration Error:", err);
       setError(`Error: ${err.message}. Check console for details.`);
+      toast.error("Network error occurred.");
     }
   };
 

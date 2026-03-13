@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { ArrowLeft, Calculator, CheckCircle, ChevronRight } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ApplyLoan = () => {
   const navigate = useNavigate();
   const [loanAmount, setLoanAmount] = useState(500000);
   const [tenure, setTenure] = useState(24);
   const [loanType, setLoanType] = useState("Personal");
-  const interestRate = 12; // 12% annual
+  const interestRate = 12;
 
   const calculateEMI = () => {
     const r = interestRate / 12 / 100;
@@ -23,7 +24,7 @@ const ApplyLoan = () => {
     e.preventDefault();
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      alert("Please login to apply");
+      toast.error("Please login to apply");
       navigate("/login");
       return;
     }
@@ -43,20 +44,21 @@ const ApplyLoan = () => {
       });
 
       if (response.ok) {
+        toast.success("Loan Application Submitted!");
         navigate("/dashboard");
       } else {
-        alert("Application failed");
+        toast.error("Application failed");
       }
     } catch (err) {
       console.error(err);
-      alert("Error submitting application");
+      toast.error("Error submitting application");
     }
   };
 
   return (
     <div className="bg-black min-h-screen pt-24 pb-12 px-6">
       <div className="max-w-5xl mx-auto">
-        {/* Header */}
+        {}
         <div className="flex items-center gap-4 mb-8">
           <Link
             to="/dashboard"
@@ -73,11 +75,11 @@ const ApplyLoan = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Form Section */}
+          {}
           <div className="lg:col-span-2">
             <div className="glass-panel p-8 rounded-2xl">
               <form className="space-y-8">
-                {/* Section 1: Loan Details */}
+                {}
                 <div>
                   <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
                     <span className="w-6 h-6 rounded-full bg-white text-black text-xs font-bold flex items-center justify-center">
@@ -141,7 +143,7 @@ const ApplyLoan = () => {
 
                 <div className="h-px bg-white/10" />
 
-                {/* Section 2: Personal Details */}
+                {}
                 <div>
                   <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
                     <span className="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center">
@@ -195,7 +197,7 @@ const ApplyLoan = () => {
             </div>
           </div>
 
-          {/* Sidebar Summary */}
+          {}
           <div className="lg:col-span-1">
             <div className="glass-panel p-6 rounded-2xl sticky top-24">
               <div className="flex items-center gap-3 mb-6">

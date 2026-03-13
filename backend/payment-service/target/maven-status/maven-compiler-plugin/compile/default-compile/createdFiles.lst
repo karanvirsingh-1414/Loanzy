@@ -1,1 +1,4 @@
+com/loanzy/payment_service/controller/PaymentController.class
 com/loanzy/payment_service/PaymentServiceApplication.class
+com/loanzy/payment_service/repository/PaymentRepository.class
+com/loanzy/payment_service/entity/Payment.class

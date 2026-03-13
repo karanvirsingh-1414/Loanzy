@@ -1,5 +1,6 @@
-com/loanzy/loan_service/entity/Loan.class
 com/loanzy/loan_service/config/SecurityConfig.class
-com/loanzy/loan_service/controller/LoanController.class
 com/loanzy/loan_service/repository/LoanRepository.class
+com/loanzy/loan_service/service/LoanRiskAnalyzerService.class
 com/loanzy/loan_service/LoanServiceApplication.class
+com/loanzy/loan_service/entity/Loan.class
+com/loanzy/loan_service/controller/LoanController.class

@@ -22,13 +22,13 @@ public class Loan {
     private Long userId;
 
     @Column(nullable = false)
-    private String type; // e.g., "Personal Loan", "Home Loan"
+    private String type;
 
     @Column(nullable = false)
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private String status; // e.g., "Active", "Pending"
+    private String status;
 
     private LocalDate nextEmiDate;
 

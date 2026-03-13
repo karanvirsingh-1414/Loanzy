@@ -5,6 +5,7 @@ import com.loanzy.auth_service.dto.LoginRequest;
 import com.loanzy.auth_service.dto.RegisterRequest;
 import com.loanzy.auth_service.entity.User;
 import com.loanzy.auth_service.repository.UserRepository;
+import com.loanzy.auth_service.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +21,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
@@ -27,11 +29,21 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new AuthResponse("Username already exists", null, null));
         }
 
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            return ResponseEntity.badRequest().body(new AuthResponse("Email already registered", null, null));
+        }
+
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole("USER");
+
+        if (request.getUsername().toLowerCase().contains("admin")
+                || request.getEmail().toLowerCase().contains("admin")) {
+            user.setRole("ADMIN");
+        } else {
+            user.setRole("USER");
+        }
 
         userRepository.save(user);
 
@@ -43,12 +55,11 @@ public class AuthController {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-        // Fetch user to get ID
         User user = userRepository.findByUsername(request.getUsername())
-                .or(() -> userRepository.findByEmail(request.getUsername())) // Since username param might be email
+                .or(() -> userRepository.findByEmail(request.getUsername()))
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // In a real app, generate JWT here. For now returning success.
-        return ResponseEntity.ok(new AuthResponse("Login successful", "dummy-jwt-token", user.getId()));
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRole(), user.getId());
+        return ResponseEntity.ok(new AuthResponse("Login successful", token, user.getId()));
     }
 }

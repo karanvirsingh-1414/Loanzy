@@ -3,3 +3,4 @@
 /Users/karanvirsingh/Desktop/Loanzy/backend/loan-service/src/main/java/com/loanzy/loan_service/controller/LoanController.java
 /Users/karanvirsingh/Desktop/Loanzy/backend/loan-service/src/main/java/com/loanzy/loan_service/entity/Loan.java
 /Users/karanvirsingh/Desktop/Loanzy/backend/loan-service/src/main/java/com/loanzy/loan_service/repository/LoanRepository.java
+/Users/karanvirsingh/Desktop/Loanzy/backend/loan-service/src/main/java/com/loanzy/loan_service/service/LoanRiskAnalyzerService.java

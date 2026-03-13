@@ -88,6 +88,7 @@ const StatusBadge = ({ status }) => {
     Pending: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
     Closed: "bg-neutral-500/10 text-neutral-400 border-neutral-500/20",
     Rejected: "bg-red-500/10 text-red-400 border-red-500/20",
+    "Rejected by AI": "bg-red-500/20 text-red-500 border-red-500/30 animate-pulse font-bold",
   };
 
   const defaultStyle =

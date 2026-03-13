@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ArrowRight, Lock, User } from "lucide-react";
-
+import toast from "react-hot-toast";
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("");
@@ -24,22 +24,30 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Login Successful:", data);
+        toast.success("Welcome back!");
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.userId);
-        navigate("/dashboard");
+
+        const role = JSON.parse(atob(data.token.split('.')[1])).role;
+        if (role === 'ADMIN') {
+          navigate("/admin");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         setError(data.message || "Login failed");
+        toast.error(data.message || "Login failed");
       }
     } catch (err) {
       console.error("Login Error:", err);
       setError(`Error: ${err.message}. Check console for details.`);
+      toast.error("Network error occurred.");
     }
   };
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-6 relative overflow-hidden">
-      {/* Background Elements */}
+      {}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[50vh] h-[50vh] bg-white/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[50vh] h-[50vh] bg-neutral-800/10 rounded-full blur-[120px]" />
