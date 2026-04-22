@@ -11,7 +11,7 @@ const AdminDashboard = () => {
 
   const fetchLoans = async () => {
     try {
-      const resp = await fetch("http://localhost:8080/loans");
+      const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}/loans`);
       if (resp.ok) {
         const data = await resp.json();
         setLoans(data);
@@ -23,7 +23,7 @@ const AdminDashboard = () => {
 
   const handleApprove = async (id) => {
     try {
-      const resp = await fetch(`http://localhost:8080/loans/${id}/approve`, { method: "PUT" });
+      const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}/loans/${id}/approve`, { method: "PUT" });
       if (resp.ok) {
         toast.success("Loan Approved Successfully!");
         fetchLoans();
@@ -36,7 +36,7 @@ const AdminDashboard = () => {
 
   const handleReject = async (id) => {
     try {
-      const resp = await fetch(`http://localhost:8080/loans/${id}/reject`, { method: "PUT" });
+      const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}/loans/${id}/reject`, { method: "PUT" });
       if (resp.ok) {
         toast.success("Loan Rejected.");
         fetchLoans();
